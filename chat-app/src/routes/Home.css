@@ -1,0 +1,62 @@
+
+.chat{
+    display: flex;
+    width: 100%;
+    background-color: azure;
+    color: rgb(255, 255, 255);
+    border-radius: 20px;
+}
+.colum-1, .colum-2{
+    padding: 15px;
+}
+.colum-1{
+    display: block;
+    background-color: blueviolet;
+    width: 30%;
+    justify-content: start;
+}
+.colum-2{
+    background-color: rgb(226, 43, 43);
+    width: 70%;
+    justify-content: end;
+    text-align: center;
+}
+.userMenu{
+    display: flex;
+    justify-content: space-between;
+    padding-left: 5px;
+}
+.searchUser{
+    display: flex;
+    margin-top: 20px;
+    width: 100%;
+}
+.searchUser input{
+    border:none;
+    padding: 10px;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+    height: 100%;
+    width: 100%;
+}
+.searchUser button{
+    border:none;
+    padding: 10px;
+    height: 100%;
+}
+.UserChats{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: aqua;
+
+}
+.internalBox{
+    display: flex;
+    border: 1px solid black;
+}
+.lastMensage{
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
