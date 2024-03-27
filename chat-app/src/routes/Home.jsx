@@ -1,108 +1,51 @@
 import React, { useEffect, useState } from 'react'
 import './Home.css';
+import blogFetch from "../axios/config";
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
   const navigate = useNavigate();
-  const [nome] = useState(localStorage.getItem('nome'));
-  const [id] = useState(1);
-  const [chat] = useState([
-    {
-      id: 1,
-      user: 'Jonatas',
-      lastMensage: 'olá tudo bem?',
-      mensagemView: true,
-      time: '15:50'
-    },
-    {
-      id: 2,
-      user: 'Lucas',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    },
-    {
-      id: 3,
-      user: 'Andre',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    },
-    {
-      id: 4,
-      user: 'Italo',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    },
-    {
-      id: 5,
-      user: 'João',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    },
-    {
-      id: 6,
-      user: 'Seila',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    },
-    {
-      id: 7,
-      user: 'Vinicius',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    },
-    {
-      id: 8,
-      user: 'Geraldo',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    },
-    {
-      id: 9,
-      user: 'Lucas',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    },
-    {
-      id: 10,
-      user: 'Lucas',
-      lastMensage: 'iae?',
-      mensagemView: false,
-      time: '16:50'
-    }
-  ])
+  const [nome] = useState(localStorage.getItem('nome'))
+  const [id] = useState(parseInt(localStorage.getItem('id')));
+  const [chat, setChat] = useState([]);
   const [hoveredUser, setHoveredUser] = useState(null);
-  const [titulo, setTitulo] = useState('TITULO');
-  const [chatTexto, setChatTexto] = useState([
-    {
-      id: 1,
-      user: 'Jonatas',
-      mensagem: 'iae',
-      time: "12:20"
-    },
-    {
-      id: 2,
-      user: 'Lucas',
-      mensagem: 'iae',
-      time: "12:20"
-    },
-    {
-      id: 1,
-      user: 'Jonatas',
-      mensagem: 'Tudo em Ordem?',
-      time: "12:21"
-    }
-  ])
+  const [titulo, setTitulo] = useState('');
+  const [chatTexto, setChatTexto] = useState([]);
+  const [mensagemTexto, setMensagemTexto] = useState('');
+  const [idChat, setIdChat] = useState('');
 
-  function setarTitulo(titulo){
-    setTitulo(titulo)
+  const getFeed = async () => {
+    try {
+      const response = await blogFetch.get(`/chats/userChats/${id}`);
+      setChat(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getChat = async (chatId, userId, titulo) => {
+    try {
+      const response = await blogFetch.get(`/chats/chat/${chatId}/user/${userId}`);
+      setTitulo(titulo.toUpperCase())
+      setIdChat(chatId)
+      setChatTexto(response.data.mensagems);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const enviarMensagem = async (e)=>{
+    e.preventDefault();
+    const post = {
+      texto:mensagemTexto
+    }
+    try {
+      await blogFetch.post(`/chats/chat/${idChat}/user/${id}`, post);
+      setMensagemTexto('')
+    } catch (error) {
+      console.log(error)
+    }
+
   }
 
   const handleMouseEnter = (userId) => {
@@ -119,8 +62,9 @@ const Home = () => {
   }
 
   useEffect(() => {
+    getFeed();
     document.title = 'Home';
-    if (!localStorage.getItem('nome')) {
+    if (!localStorage.getItem('nome') && !localStorage.getItem('id')) {
       navigate('/');
     }
   }, [navigate]);
@@ -140,10 +84,10 @@ const Home = () => {
             <div
               key={usuario.id}
               className='internalBox'
-              onClick={() => setarTitulo(usuario.user)}
-              onMouseEnter={() => handleMouseEnter(usuario.id)}
+              onClick={() => getChat(usuario.chatId, usuario.mensagem.usuario.id, usuario.mensagem.usuario.name)}
+              onMouseEnter={() => handleMouseEnter(usuario.mensagem.id)}
               onMouseLeave={handleMouseLeave}
-              style={{ backgroundColor: hoveredUser === usuario.id ? '#888' : '#555' }}
+              style={{ backgroundColor: hoveredUser === usuario.mensagem.id ? '#888' : '#555' }}
             >
               <div className='fotoPerfil' style={{ width: '15%' }} >
                 <span style={{
@@ -160,25 +104,25 @@ const Home = () => {
                   fontWeight: 'bolder'
                 }}>L</span>
               </div>
-              {usuario.mensagemView === false ? (
+              {usuario.mensagem.lida === false ? (
                 <>
                   <div className='lastMensage'>
-                    <span className='nameMensage'>{usuario.user}</span>
-                    <span className='lastMensagem active'>{usuario.lastMensage}</span>
+                    <span className='nameMensage'>{usuario.mensagem.usuario.name}</span>
+                    <span className='lastMensagem active'>{usuario.mensagem.texto}</span>
                   </div>
                   <div className='time'>
-                    <span className='timeSpan active'>{usuario.time}</span>
+                    <span className='timeSpan active'>12:30</span>
                     <span style={{ color: 'rgb(76, 241, 71)', fontSize: '20px' }}>•</span>
                   </div>
                 </>
               ) : (
                 <>
                   <div className='lastMensage'>
-                    <span className='nameMensage'>{usuario.user}</span>
-                    <span className='lastMensagem'>{usuario.lastMensage}</span>
+                    <span className='nameMensage'>{usuario.mensagem.usuario.name}</span>
+                    <span className='lastMensagem'>{usuario.mensagem.texto}</span>
                   </div>
                   <div className='time'>
-                    <span className='timeSpan'>{usuario.time}</span>
+                    <span className='timeSpan'>12:30</span>
                   </div>
                 </>
               )}
@@ -195,22 +139,20 @@ const Home = () => {
             <span>{titulo}</span>
           </div>
           <div className='feedChat'>
-          {chatTexto.map(chat => (
-            <>
-              {chat.id === id ? (
-                  <div className='minha'><span>{chat.mensagem}</span></div>
-              ): (
-                <div className='dele'><span>{chat.mensagem}</span></div>
-              )}
-            </>
-          ))}
+            {chatTexto.map(chat => (
+              <>
+                <div className={chat.usuario.id === id ? 'minha' : 'dele'}><span>{chat.texto}</span></div>
+              </>
+            ))}
           </div>
-            < div className='inputChat'>
-          <input type='text' />
-          <button className='buttonInputChat'>enviar</button>
+          < div className='inputChat'>
+            <form onSubmit={(e) => enviarMensagem(e)}>
+              <input type='text' value={mensagemTexto} onChange={(e) => setMensagemTexto(e.target.value)} required  />
+              <button type='submit' className='buttonInputChat'>enviar</button>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
     </div >
   )
 }
