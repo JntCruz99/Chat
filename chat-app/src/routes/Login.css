@@ -1,8 +1,4 @@
-body{
-    font-family: 'Roboto', sans-serif;
-    background-color: rgb(37, 37, 37);
-    color: white;
-}
+
 .container{
     display: flex;
     flex-direction: column;

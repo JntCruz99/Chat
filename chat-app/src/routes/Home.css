@@ -1,35 +1,45 @@
-
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(37, 37, 37);
+    color: white;
+}
 .chat{
     display: flex;
     width: 100%;
+    height: 100%;
     background-color: azure;
     color: rgb(255, 255, 255);
     border-radius: 20px;
-}
-.colum-1, .colum-2{
-    padding: 15px;
+    
 }
 .colum-1{
     display: block;
-    background-color: blueviolet;
-    width: 30%;
+    background-color: rgb(71, 70, 71);
+    width: 35%;
     justify-content: start;
+    height: 100%;
+    border-right: 2px solid #8d8b8b;
 }
 .colum-2{
-    background-color: rgb(226, 43, 43);
-    width: 70%;
-    justify-content: end;
-    text-align: center;
+    background-color: rgb(92, 91, 91);
+    width: 65%;
 }
 .userMenu{
+    padding: 15px;
     display: flex;
     justify-content: space-between;
-    padding-left: 5px;
+    padding-left: 15px;
+    padding-top: 20px;
 }
 .searchUser{
+    margin-left: 10px;
+    margin-right: 10px;
     display: flex;
-    margin-top: 20px;
-    width: 100%;
+    margin-top: 10px;
+    width: 95%;
 }
 .searchUser input{
     border:none;
@@ -38,25 +48,133 @@
     border-bottom-left-radius: 20px;
     height: 100%;
     width: 100%;
+    background-color: #8d8b8b;
+    color: white;
 }
 .searchUser button{
     border:none;
-    padding: 10px;
-    height: 100%;
+    padding: 6px;
+    height: 100%;   
+    background-color: #cac7c7;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 .UserChats{
     width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: aqua;
-
+    background-color: rgb(47, 48, 48);
+    margin-top: 20px;
+    height: 520px; 
+    overflow-y: auto;
+    cursor: pointer;
 }
+
+.UserChats::-webkit-scrollbar {
+
+    width: 5px; 
+}
+
+.UserChats::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 5px; 
+}
+
+.UserChats::-webkit-scrollbar-thumb:hover {
+    cursor: default;
+    background-color: #555;
+}
+
 .internalBox{
     display: flex;
-    border: 1px solid black;
+    border-top: 1px solid black;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 .lastMensage{
     display: flex;
     flex-direction: column;
     width: 70%;
+}
+.time{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+.nameMensage{
+    align-items: start;
+    margin-bottom: 10px;
+    font-weight: bolder;
+}
+.lastMensagem{
+    color: rgb(194, 197, 197);
+    margin-left: 8px;
+}
+.timeSpan{
+    font-size: small;
+    color: rgb(194, 197, 194);
+    margin-bottom: 10px;
+}
+.active{
+    font-weight: bolder;
+    color: white;
+}
+.logout{
+    cursor: pointer;
+}
+.inv{
+    display: none;
+}
+.chatBox{
+    width: 100%;
+    height: 100%;
+}
+.titleChat{
+    background-color: rgb(129, 131, 133);
+    text-align: end;
+    padding: 18px;
+    font-size: 20px;
+}
+.feedChat{
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    margin-bottom: 20px;
+}
+.minha{
+    text-align: end;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+.minha span{
+    background-color: #5f8d63;
+    padding: 5px;
+    border-radius: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.dele{
+    text-align: start;
+    margin-top: 10px;
+    margin-left: 10px;
+}
+.dele span{
+    background-color: #999595;
+    padding: 5px;
+    border-radius: 10px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+.inputChat{
+    width: 100%;
+}
+.inputChat input{
+    padding: 15px;
+    width: 88%;
+}
+.buttonInputChat{
+    padding: 15px;
 }
